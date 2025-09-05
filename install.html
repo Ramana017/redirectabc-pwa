@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Install ABC</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#0f172a" />
+</head>
+<body>
+  <h1>Install ABC App</h1>
+  <button id="installBtn" hidden>Install</button>
+  <p id="fallback" hidden>Use your browser menu → Add to Home screen</p>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    }
+
+    let deferred;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferred = e;
+      document.getElementById('installBtn').hidden = false;
+    });
+
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (!deferred) return;
+      deferred.prompt();
+      await deferred.userChoice;
+      deferred = null;
+      window.location.href = '/';
+    });
+
+    setTimeout(() => {
+      if (!deferred) document.getElementById('fallback').hidden = false;
+    }, 1500);
+  </script>
+</body>
+</html>

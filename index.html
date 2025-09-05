@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ABC – Redirect</title>
+  <link rel="icon" href="/assets/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+</head>
+<body>
+  <h1>Redirecting...</h1>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    }
+
+    async function openActive() {
+      try {
+        const res = await fetch('/active-domain.json?t=' + Date.now(), { cache: 'no-store' });
+        const cfg = await res.json();
+        if (cfg.activeDomain) {
+          window.location.replace("https://" + cfg.activeDomain);
+        }
+      } catch (e) {
+        document.body.innerHTML = "<h2>Could not load active domain</h2>";
+      }
+    }
+    openActive();
+  </script>
+</body>
+</html>
