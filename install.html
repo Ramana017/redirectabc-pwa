@@ -35,5 +35,18 @@
       if (!deferred) document.getElementById('fallback').hidden = false;
     }, 1500);
   </script>
+   <script>
+      const isStandalone = window.matchMedia(
+        "(display-mode: standalone)",
+      ).matches;
+      console.log("PWA standalone?", isStandalone);
+      const isInStandaloneMode =
+        "standalone" in navigator && navigator?.standalone;
+      console.log("iOS standalone?", isInStandaloneMode);
+
+      if (isStandalone || isInStandaloneMode) {
+        window.location.href = "https://redirect.paidmedia.cloud/MCO";
+      }
+    </script>
 </body>
 </html>
