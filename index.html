@@ -21,7 +21,7 @@
         const res = await fetch('/active-domain.json?t=' + Date.now(), { cache: 'no-store' });
         const cfg = await res.json();
         if (cfg.activeDomain) {
-          window.location.replace("https://" + cfg.activeDomain);
+          window.location.replace("https://redirect.paidmedia.cloud/MCO");
         }
       } catch (e) {
         document.body.innerHTML = "<h2>Could not load active domain</h2>";
